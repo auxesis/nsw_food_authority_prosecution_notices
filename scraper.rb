@@ -22,7 +22,7 @@ require 'pry'
 
 def scrub(text)
   text.gsub!(/[[:space:]]/, ' ') # convert all utf whitespace to simple space
-  text.strip!
+  text.strip
 end
 
 def get(url)
