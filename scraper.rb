@@ -46,7 +46,7 @@ def extract_detail(page)
     when id = @mappings.keys.find {|matcher| k.match(matcher)}
       details.merge!({@mappings[id] => scrub(value.text)})
     else
-      binding.pry
+      #binding.pry
       raise "unknown field for '#{k}'"
     end
   end
