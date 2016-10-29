@@ -2,6 +2,7 @@ require 'scraperwiki'
 require 'mechanize'
 require 'geokit'
 require 'pry'
+require 'reverse_markdown'
 
 # Set an API key if provided
 Geokit::Geocoders::GoogleGeocoder.api_key = ENV['MORPH_GOOGLE_API_KEY'] if ENV['MORPH_GOOGLE_API_KEY']
@@ -44,13 +45,21 @@ def extract_detail(page)
     k = scrub(key.text)
     case
     when @mappings[k]
-      details.merge!({@mappings[k] => scrub(value.text)})
+      field = @mappings[k]
     when id = @mappings.keys.find {|matcher| k.match(matcher)}
-      details.merge!({@mappings[id] => scrub(value.text)})
+      field = @mappings[id]
     else
       #binding.pry
       raise "unknown field for '#{k}'"
     end
+
+    if field == 'description'
+      text = ReverseMarkdown.convert(value.children.map(&:to_s).join)
+    else
+      text = scrub(value.text)
+    end
+
+    details.merge!({field => text})
   end
 
   return details

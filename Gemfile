@@ -5,3 +5,4 @@ gem 'scraperwiki', git: 'https://github.com/openaustralia/scraperwiki-ruby.git',
 gem 'mechanize'
 gem 'pry'
 gem 'geokit'
+gem 'reverse_markdown'
